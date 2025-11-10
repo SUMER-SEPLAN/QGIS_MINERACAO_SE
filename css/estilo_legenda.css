@@ -1,0 +1,65 @@
+/* css/estilo.css */
+
+/* Estilo para o container da legenda (Desktop e Padrão) */
+.legenda-container {
+    position: absolute;
+    bottom: 20px; /* Posição padrão para desktop */
+    left: 20px;  /* Posição padrão para desktop */
+    
+    /* * CORREÇÃO CRÍTICA (Z-INDEX):
+     * Os controles do Leaflet (zoom, camadas, atribuição) usam z-index: 1000.
+     * O seu estava 999, então a legenda ficava ATRÁS dos controles.
+     * Mudamos para 1001 para garantir que fique NA FRENTE.
+    */
+    z-index: 999; 
+    
+    display: none; 
+    
+    /* Estilos visuais */
+    background-color: white;
+    padding: 10px;
+    border-radius: 10px; /* Reduzi um pouco para um visual mais limpo */
+    border: 1px solid #ccc;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); /* Sombra um pouco mais suave */
+    max-width: 230px; 
+    box-sizing: border-box; /* Boa prática para o padding não afetar a largura */
+}
+
+/* Classe que será usada pelo JavaScript para mostrar a legenda */
+.legenda-visivel {
+    display: block !important;
+}
+
+/* Garante que a imagem dentro do container se ajuste bem */
+.legenda-container img {
+    max-width: 100%;
+    height: auto;
+    display: block;
+}
+
+/* * =======================================================
+ * AJUSTE PARA MOBILE (Telas com 768px de largura ou menos)
+ * =======================================================
+*/
+@media (max-width: 768px) {
+    .legenda-container {
+        /* * REPOSICIONAMENTO PARA MOBILE:
+         * Movemos a legenda para 50px de altura (para cima) 
+         * para não ficar em cima do texto de atribuição do Leaflet.
+        */
+        bottom: 50px; 
+        
+        /* Ajustamos o 'left' para o padrão do Leaflet */
+        left: 10px; 
+        
+        /* * Em telas pequenas, 230px é muito largo.
+         * Fazemos a legenda ter no máximo 200px ou 
+         * 90% da largura da tela, o que for menor.
+        */
+        max-width: min(200px, 90vw);
+        
+        /* Reduzimos o preenchimento em telas menores */
+        padding: 5px;
+        border-radius: 5px;
+    }
+}

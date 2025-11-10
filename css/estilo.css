@@ -1,0 +1,457 @@
+/*
+@font-face {
+    font-family: 'Montserrat';
+    src: url('../webfonts/Montserrat-Regular.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+*/
+
+/* === GERAL === */
+html, body {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    font-family: 'Montserrat', Arial, sans-serif;
+    font-size: smaller;
+    box-sizing: border-box;
+    overflow: hidden;
+  }
+  
+  /* === BARRA SUPERIOR === */
+  .topbar {
+    background-color:#1e782e;
+    color: white;
+    padding: 10px 20px;
+    position: fixed;
+    top: 0;
+    width: 100%;
+    height: 64px;
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    justify-content: space-between; /* separa esquerda e direita */
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+  }
+  
+  .topbar-left {
+    display: flex;
+    align-items: center;
+    flex-grow: 1; /* Permite que este contêiner expanda */
+    min-width: 0; /* Ajuda a evitar problemas de overflow com conteúdo longo em flex items */
+  }
+
+  .topbar-right {
+    display: flex; /* Adicionado para alinhar itens internos */
+    align-items: center; /* Adicionado para alinhar itens internos verticalmente */
+    margin-right: 232px; /* Move o bloco de logos um pouco para a esquerda */
+  }
+  
+  .logo {
+    height: 60px;
+    width: auto;
+    object-fit: contain;
+    margin-right: 15px;
+    box-shadow: none !important;
+  }
+  
+  .logo-sumer {
+    height: 45px;
+    width: auto;
+    object-fit: contain;
+    margin-right: 30px;
+    border-radius: 7px;
+    box-shadow: none !important;
+  }
+  
+  /* === MENU LATERAL === */
+  .sidebar {
+    position: fixed;
+    top: 64px; /* Ajustado para altura da topbar */
+    left: 0;
+    width: 0; /* Começa recolhido */
+    height: calc(100vh - 64px); /* Ocupa o restante da altura da tela */
+    background-color: #1e782e; /* Restaurar cor de fundo */
+    transition: width 0.3s ease;
+    overflow-x: hidden; /* Esconde o conteúdo quando recolhido */
+    z-index: 1001;
+    /* display: none !important; */ /* Removido para controlar via width */
+    padding-top: 10px; /* Espaçamento no topo dos itens do menu */
+  }
+  
+  /* Estilos para o botão #toggleMenu agora na topbar */
+  #toggleMenu {
+    background-color: transparent; /* Remove o fundo anterior */
+    color: white; /* Mantém a cor do ícone */
+    font-size: 24px; /* Ajuste o tamanho conforme necessário */
+    border: none;
+    padding: 0 10px; /* Ajuste o preenchimento */
+    margin-right: 15px; /* Espaçamento à direita do botão */
+    cursor: pointer;
+  }
+  
+  .sidebar.expandido {
+    width: 200px;
+  }
+  
+  .sidebar.expandido a span {
+    display: inline;
+  }
+  
+  /* A regra antiga para o botão dentro da sidebar não é mais necessária ou precisa ser removida/comentada */
+  /* .sidebar button#toggleMenu {
+    position: relative;
+    top: 0;
+    background-color: #1e782e;
+    color: white;
+    font-size: 20px;
+    border: none;
+    width: 100%;
+    padding: 20px;
+    cursor: pointer;
+    text-align: left;
+  } */
+  
+  .sidebar ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+  
+  .sidebar li {
+    padding: 0;
+  }
+  
+  .sidebar a {
+    text-decoration: none;
+    color: white;
+    display: flex;
+    align-items: center;
+    width: 100%;
+    padding: 10px;
+    box-sizing: border-box;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    transition: all 0.3s ease;
+    gap: 10px;
+  }
+  
+  .sidebar img {
+    width: 24px;
+    min-width: 24px;
+    margin-left: 5px;
+  }
+  
+  /* Esconde o texto quando a sidebar está recolhida */
+  .sidebar:not(.expandido) a span {
+    display: none;
+  }
+  
+  /* === ÁREA DO MAPA === */
+  .content {
+    position: absolute;
+    top: 64px;       /* altura da topbar */
+    left: 0;         /* Posição inicial */
+    right: 0;
+    bottom: 0;
+    z-index: 0;
+    transition: margin-left 0.3s ease; /* Para animar o deslocamento */
+  }
+  
+  .content iframe {
+    width: 100%;
+    height: 100%;
+    border: none;
+  }
+
+  #legenda-container {
+    position: absolute;
+    bottom: 20px;
+    left: 10px; /* Ajustado para a nova posição sem a sidebar */
+    z-index: 1002;
+    display: none; /* começa invisível */
+    transition: left 0.3s ease;
+  }
+  
+  #legenda-img {
+    max-width: 400px;
+    max-height: 250px;
+    border-radius: 8px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.3);
+  }
+
+  #popup-fontes {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  display: none; /* Só isso aqui */
+  z-index: 1005;
+  background-color: rgba(0,0,0,0.5);
+
+  /* Centralização do conteúdo interno */
+  align-items: center;
+  justify-content: center;
+}
+
+  
+  .popup-content {
+    background-color: #ffffff;
+    color: #333;
+    padding: 20px;
+    max-width: 300px;
+    border-radius: 10px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.25);
+    font-size: 14px;
+    line-height: 1.4;
+  }
+  
+  .popup-content h3 {
+    margin-top: 0;
+  }
+  
+  .popup-content button {
+    margin-top: 10px;
+    background-color: #2c3e50;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  /* Rodapé do menu lateral */
+.sidebar-bottom {
+    position: absolute;
+    bottom: 10px;
+    width: 100%;
+    text-align: center;
+  }
+  
+  .sidebar-bottom a {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 10px;
+    color: white;
+    text-decoration: none;
+    gap: 10px;
+  }
+  
+  /* Popup central */
+  #popup-sobre {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    display: none;
+    z-index: 1005;
+    background-color: rgba(0,0,0,0.5);
+  }
+
+  .popup-central {
+    background-color: white;
+    color: #333;
+    padding: 25px;
+    max-width: 400px;
+    border-radius: 10px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.25);
+    font-size: 14px;
+    line-height: 1.4;
+    margin: 100px auto; /* centralizado verticalmente */
+    position: relative;
+    max-height: 75vh; /* Limita a altura a 85% da altura da tela */
+    overflow-y: auto; /* Adiciona a barra de rolagem vertical SE necessário */
+}
+  
+  .popup-central h3 {
+    margin-top: 0;
+  }
+  
+  .popup-central button {
+    margin-top: 15px;
+    background-color: #2c3e50;
+    color: white;
+    border: none;
+    padding: 6px 12px;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+
+  /* Popup instruções */
+  #popup-instrucoes {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    display: none;
+    z-index: 1005;
+    background-color: rgba(0,0,0,0.5);
+  }
+  
+  #btn-legenda.ativo img {
+    filter: brightness(0) saturate(100%) invert(69%) sepia(73%) saturate(387%) hue-rotate(101deg) brightness(94%) contrast(92%);
+  }
+
+  /* Loader Animação */
+  #loader {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: white;
+    z-index: 2000;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .loader-container {
+    position: relative;
+    width: 120px;
+    height: 120px;
+  }
+  
+  .loader-logo {
+    width: 100%;
+    height: 100%;
+    border-radius: 10px;
+    z-index: 2;
+    position: absolute;
+    top: 0;
+    left: 0;
+    object-fit: contain;
+  }
+  
+  
+  /* borda animada circular ao redor do logo */
+  .loader-bar {
+    position: absolute;
+    top: -5px;
+    left: -5px;
+    width: 130px;
+    height: 130px;
+    border-radius: 50%;
+    border: 4px solid transparent;
+    border-top: 4px solid #2c3e50;
+    animation: spin 0.6s linear infinite; /* atualizado abaixo */
+    z-index: 1;
+    box-sizing: border-box;
+  }
+  
+  @keyframes spin {
+    0%   { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+  }
+
+ .titulo-mobile {
+  display: none;
+  flex-grow: 1; /* Permite que o título expanda */
+  text-align: center; /* Centraliza o texto dentro do título */
+}
+.titulo-desktop {
+  display: block;
+  flex-grow: 1; /* Permite que o título expanda */
+  text-align: center; /* Centraliza o texto dentro do título */
+}
+
+@media (max-width: 600px) {
+  .titulo-desktop {
+    display: none;
+  }
+  .titulo-mobile {
+    display: block;
+    font-size: 19px;
+    line-height: 1.2;
+    font-weight: normal;
+    white-space: normal; /* Permite que o texto quebre em várias linhas */
+  }
+  .topbar {
+    height: 54px; /* Altura menor para a topbar no celular */
+    padding: 5px 10px; /* Ajuste o padding se necessário */
+  }
+  .sidebar {
+    top: 54px; /* Ajusta o topo da sidebar para a nova altura da topbar */
+    height: calc(100vh - 50px); /* Ajusta a altura da sidebar */
+    white-space: normal;
+  }
+  .topbar-right {
+    /* display: none; */ /* Mantém visível no celular */
+    margin-right: 10px; /* Reduz a margem direita para celular, ajuste conforme necessário */
+  }
+  .logo {
+    height: 40px; /* Altura específica para .logo no celular */
+    margin-right: 10px; /* Ajuste a margem se necessário */
+  }
+  .logo-sumer {
+    height: 35px; /* Altura específica para .logo-sumer no celular */
+    margin-right: 15px; /* Ajuste a margem específica do logo-sumer se necessário */
+  }
+  .content {
+    top: 54px; /* Ajusta o topo do conteúdo para a nova altura da topbar */
+  }
+}
+@media (max-width: 600px) {
+  .popup-central {
+    max-width: 95vw;
+    width: 95vw;
+    min-width: unset;
+    margin: 30px auto;
+    padding: 12px;
+    font-size: 15px;
+    box-sizing: border-box;
+  }
+  .popup-central h3 {
+    font-size: 18px;
+  }
+  .popup-central button {
+    width: 100%;
+    font-size: 16px;
+    padding: 10px 0;
+  }
+}
+@media (max-width: 375px) {
+  .popup-central {
+    padding: 6px;
+    font-size: 13px;
+  }
+}
+@media (max-width: 600px) {
+  .popup-central {
+    max-height: 90vh;
+    overflow-y: auto;
+  }
+}
+ @media (max-width: 359px) {
+  .popup-central {
+    max-height: 85vh;
+    overflow-y: auto;
+  }
+} 
+
+/* Estilo para o novo botão "Site da SEPLAN" */
+.seplan-apps-bar__site-button {
+    display: flex; /* Alterado de none para flex para exibir o botão */
+    background-color: #f0f0f0; /* Substituindo var(--gray-1) - um cinza claro */
+    color: #1e782e; /* Substituindo var(--blue-warm-vivid-70) - verde escuro para contraste com o fundo claro */
+    padding: 0 14px;
+    border-radius: 6px;
+    font-size: .875rem; /* Aproximadamente 14px */
+    font-weight: 600;
+    height: 30px;
+    text-decoration: none;
+    transition: background-color .2s;
+    align-items: center;
+    justify-content: center;
+    margin-right: 15px; /* Espaçamento para separar dos logos */
+}
+
+.seplan-apps-bar__site-button:hover {
+    background-color: #e0e0e0; /* Um cinza um pouco mais escuro para o hover */
+    color: #155e23; /* Verde um pouco mais escuro no hover */
+}

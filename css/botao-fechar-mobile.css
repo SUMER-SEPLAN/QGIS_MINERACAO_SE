@@ -1,0 +1,35 @@
+/*
+  ======================================================================
+  === ESTILO PARA O BOTÃO 'X' DENTRO DO MENU DE CAMADAS (MOBILE) ===
+  ======================================================================
+*/
+
+/* Esconde o botão por padrão em telas grandes */
+#fechar-menu-interno {
+    display: none; 
+}
+
+/* Regra para telas de até 768px (celulares e tablets em modo retrato) */
+@media (max-width: 768px) {
+    
+    /* Quando o menu de camadas estiver expandido... */
+    .leaflet-control-layers-expanded #fechar-menu-interno {
+        display: block; /* O botão se torna visível */
+        position: absolute;
+        top: 5px;
+        right: 5px;
+        width: 30px;
+        height: 30px;
+        font-size: 28px;
+        font-weight: bold;
+        color: #555;
+        text-align: center;
+        line-height: 28px;
+        cursor: pointer;
+        z-index: 10; /* Garante que fique sobre os itens da lista */
+    }
+
+    .leaflet-control-layers-expanded #fechar-menu-interno:hover {
+        color: #000;
+    }
+}

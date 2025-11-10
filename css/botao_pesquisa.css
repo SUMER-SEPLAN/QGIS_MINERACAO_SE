@@ -1,0 +1,92 @@
+/* --- Estilos para o Controle de Busca Customizado --- */
+
+/* Este container usa as classes padrão do Leaflet (leaflet-bar, leaflet-control)
+  para que ele se pareça com os outros controles (zoom, camadas).
+*/
+.leaflet-control-search {
+    display: flex;
+    align-items: center;
+}
+
+/* O botão da lupa. 
+  Ele é estilizado como um link <a> para se encaixar no padrão do Leaflet.
+*/
+.leaflet-control-search-button {
+    /* Formato quadrado com bordas arredondadas (padrão leaflet-bar) */
+    width: 30px;
+    height: 30px;
+    line-height: 30px; /* Centraliza o ícone verticalmente */
+    font-size: 1.2em;  /* Tamanho do ícone da lupa */
+    font-weight: bold;
+    text-align: center;
+    text-decoration: none;
+    background-color: #fff;
+    border-radius: 4px; /* Bordas arredondadas */
+    color: #333; /* Cor do ícone */
+    cursor: pointer;
+}
+
+.leaflet-control-search-button:hover {
+    background-color: #f4f4f4;
+}
+
+/* O campo de input, inicialmente escondido.
+*/
+.leaflet-control-search-input {
+    width: 0;
+    padding: 0;
+    border: none;
+    margin: 0;
+    opacity: 0;
+    visibility: hidden;
+    height: 30px;
+    box-sizing: border-box; /* Garante que padding não afete a altura */
+    transition: all 0.3s ease-in-out;
+}
+
+/* Estilo do input quando está ativo (visível) 
+*/
+.leaflet-control-search-input.active {
+    width: 250px; /* Largura do campo quando aberto */
+    opacity: 1;
+    visibility: visible;
+    padding: 0 10px;
+    margin-left: -4px; /* Ajuste para "grudar" no botão */
+    border: 1px solid #ccc;
+    border-left: none; /* Remove a borda esquerda para fundir com o botão */
+    border-top-right-radius: 4px;
+    border-bottom-right-radius: 4px;
+}
+/* Necessário para posicionar a lista de sugestões */
+.leaflet-control-search {
+    position: relative;
+}
+
+/* A caixa que guarda as sugestões */
+.leaflet-control-search-suggestions {
+    display: none; /* Escondido por padrão */
+    position: absolute;
+    top: 100%; /* Aparece logo abaixo da barra */
+    left: 30px; /* Alinha com o início do campo de input (depois da lupa) */
+    width: 250px; /* Mesma largura do input quando ativo */
+    background-color: #fff;
+    border: 1px solid #ccc;
+    border-top: none;
+    max-height: 200px; /* Limita a altura e adiciona scroll */
+    overflow-y: auto;
+    z-index: 1000; /* Garante que fique sobre o mapa */
+    border-bottom-left-radius: 4px;
+    border-bottom-right-radius: 4px;
+    box-sizing: border-box;
+}
+
+/* Cada item (nome do município) na lista */
+.leaflet-control-search-suggestion-item {
+    padding: 8px 10px;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+.leaflet-control-search-suggestion-item:hover {
+    background-color: #f4f4f4;
+}
